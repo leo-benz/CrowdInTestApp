@@ -20,7 +20,12 @@ export async function GET() {
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     logo: '/logo.svg',
     authentication: {
-      type: 'none',
+      type: 'crowdin_app',
+      clientId: process.env.CROWDIN_CLIENT_ID,
+    },
+    events: {
+      installed: '/events/installed',
+      uninstall: '/events/uninstall',
     },
     scopes: ['project'],
     modules: {

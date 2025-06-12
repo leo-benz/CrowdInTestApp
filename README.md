@@ -9,6 +9,9 @@ Join the growing localization management platform! Build apps for all the teams 
 This is a comprehensive Crowdin Application built with Next.js and TypeScript, featuring:
 
 - **Project Menu Module** - Custom tab in Crowdin projects
+- **OAuth Authentication** - Secure user authentication via Crowdin
+- **Database Integration** - Store organization credentials with Prisma
+- **JWT Middleware** - Secure API endpoints
 - **Complete Tutorial** - Step-by-step documentation
 
 ## Running Locally
@@ -67,6 +70,7 @@ Add the following environment variables in your Vercel dashboard:
 - `NEXT_PUBLIC_BASE_URL` - Your production domain (e.g., `https://your-app.vercel.app`)
 - `AUTH_URL` - `https://accounts.crowdin.com/oauth/token`
 - `NEXT_PUBLIC_CROWDIN_IFRAME_SRC` - `https://cdn.crowdin.com/apps/dist/iframe.js`
+- `DATABASE_URL` - Your PostgreSQL database connection string
 
 ## Installing the App in Crowdin
 
@@ -82,11 +86,13 @@ Once deployed, install your app in Crowdin using the [manual installation](https
 For a complete step-by-step tutorial, see [`docs/crowdin-app-quick-start-vercel-nextjs.md`](docs/crowdin-app-quick-start-vercel-nextjs.md). The tutorial covers:
 
 1. **Basic Setup** - Project structure and environment configuration
+2. **Authentication** - OAuth flow and database integration
 
 ## Tech Stack
 
 - **Framework**: [Next.js 14+](https://nextjs.org/) with App Router
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Database**: [Prisma](https://www.prisma.io/) with PostgreSQL
 - **Deployment**: [Vercel](https://vercel.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 

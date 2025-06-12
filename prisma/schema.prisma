@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+model Organization {
+  id                   String    @id @default(cuid())
+  domain               String?
+  organizationId       Int
+  appId                String
+  addSecret            String
+  userId               Int
+  baseUrl              String
+  accessToken          String
+  accessTokenExpires   Int
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@map("organizations")
+}
