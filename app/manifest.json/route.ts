@@ -29,7 +29,24 @@ export async function GET() {
     },
     scopes: ['project'],
     modules: {
-      'project-menu': [{ key: 'menu', name: 'Getting Started', url: '/project-menu' }],
+      'project-menu': [
+        {
+          key: 'menu',
+          name: 'Getting Started',
+          url: '/project-menu',
+        },
+      ],
+      'custom-file-format': [
+        {
+          key: 'custom-file-format',
+          type: 'custom-file-format',
+          url: '/api/file/process',
+          signaturePatterns: {
+            fileName: '.+\\.json$',
+            fileContent: '"hello_world":',
+          },
+        },
+      ],
     },
   };
 

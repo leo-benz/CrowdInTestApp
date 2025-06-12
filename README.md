@@ -10,7 +10,9 @@ This is a comprehensive Crowdin Application built with Next.js and TypeScript, f
 
 - **Project Menu Module** - Custom tab in Crowdin projects
 - **OAuth Authentication** - Secure user authentication via Crowdin
+- **Custom File Format Support** - Process JSON files with custom patterns
 - **Database Integration** - Store organization credentials with Prisma
+- **Blob Storage** - Handle large files via Vercel Blob
 - **JWT Middleware** - Secure API endpoints
 - **Complete Tutorial** - Step-by-step documentation
 
@@ -71,6 +73,7 @@ Add the following environment variables in your Vercel dashboard:
 - `AUTH_URL` - `https://accounts.crowdin.com/oauth/token`
 - `NEXT_PUBLIC_CROWDIN_IFRAME_SRC` - `https://cdn.crowdin.com/apps/dist/iframe.js`
 - `DATABASE_URL` - Your PostgreSQL database connection string
+- `BLOB_READ_WRITE_TOKEN` - Your Vercel Blob Storage token
 
 ## Installing the App in Crowdin
 
@@ -87,12 +90,15 @@ For a complete step-by-step tutorial, see [`docs/crowdin-app-quick-start-vercel-
 
 1. **Basic Setup** - Project structure and environment configuration
 2. **Authentication** - OAuth flow and database integration
+3. **Custom File Format** - Processing and preview generation
+4. **Advanced Features** - Blob storage and error handling
 
 ## Tech Stack
 
 - **Framework**: [Next.js 14+](https://nextjs.org/) with App Router
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Database**: [Prisma](https://www.prisma.io/) with PostgreSQL
+- **Storage**: [Vercel Blob](https://vercel.com/storage/blob)
 - **Deployment**: [Vercel](https://vercel.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 
