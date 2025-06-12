@@ -1,103 +1,158 @@
-import Image from "next/image";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { DownloadCloud, Github } from 'lucide-react';
+import { CrowdinLogoIcon } from '@/components/icons/crowdin-logo-icon';
+import { ClientAnimation } from '@/components/client-animation';
+import { CopyButton } from '@/components/copy-button';
 
-export default function Home() {
+/**
+ * Landing page that demonstrates a minimal Crowdin App with basic UI helpers
+ * (manifest link sharing, GitHub reference, etc.). Now optimized as a Server Component
+ * with client-side interactions extracted to separate components.
+ */
+export default async function Home() {
+  const manifestUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/manifest.json`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+  // Structured data for SEO
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Crowdin App - Quick Start Guide',
+    description:
+      'A sample Crowdin App demonstrating best practices for building localization platform integrations.',
+    url: baseUrl,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    creator: {
+      '@type': 'Organization',
+      name: 'Crowdin',
+      url: 'https://crowdin.com',
+    },
+    featureList: [
+      'Custom file format processing',
+      'API integration with Crowdin',
+      'Project menu integration',
+      'OAuth authentication',
+      'Webhook event handling',
+    ],
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Skip Link for Screen Readers */}
+      <a
+        href="#main-content"
+        className="bg-primary text-primary-foreground sr-only z-50 rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
+      >
+        Skip to main content
+      </a>
+
+      <div className="bg-background text-foreground relative flex min-h-screen flex-col items-center">
+        <main
+          id="main-content"
+          className="flex h-screen w-full items-center justify-center"
+          role="main"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <ClientAnimation className="relative flex flex-col items-center justify-center">
+            <header
+              className="relative z-10 flex w-full flex-col items-center border-b text-center"
+              role="banner"
+            >
+              <div className="mb-16">
+                <CrowdinLogoIcon className="text-primary h-[54px] w-[180px]" />
+              </div>
+
+              <h1 className="mb-6 text-4xl font-bold sm:text-5xl">
+                Getting Started with Crowdin Apps
+              </h1>
+              <p className="text-muted-foreground mb-16 max-w-2xl text-lg">
+                This is a sample Node application deployed to Heroku. It&apos;s a simple Crowdin App
+                that&apos;s intended to be a good example of how to write apps for the Crowdin
+                platform.
+              </p>
+
+              <nav
+                className="mb-20 flex flex-col gap-4 sm:flex-row"
+                role="navigation"
+                aria-label="Quick actions"
+              >
+                <Button size="lg" className="text-base" aria-describedby="quick-start-desc">
+                  <DownloadCloud className="mr-2 h-5 w-5" aria-hidden="true" />
+                  Quick Start
+                </Button>
+                <span id="quick-start-desc" className="sr-only">
+                  Download and get started with the Crowdin App
+                </span>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="text-base"
+                  aria-describedby="github-desc"
+                >
+                  <Github className="mr-2 h-5 w-5" aria-hidden="true" />
+                  Source on GitHub
+                </Button>
+                <span id="github-desc" className="sr-only">
+                  View the source code on GitHub
+                </span>
+              </nav>
+            </header>
+
+            <section
+              className="flex w-full max-w-4xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8"
+              aria-labelledby="installation-heading"
+            >
+              <h2 id="installation-heading" className="mb-6 text-3xl font-bold sm:text-4xl">
+                Crowdin App is ready for installation
+              </h2>
+              <p className="text-muted-foreground mb-12 max-w-2xl text-lg">
+                Deploy the app to the internet, go to your Crowdin Account Settings and install the
+                app manually using the following link.
+              </p>
+
+              <div
+                className="flex w-full max-w-xl flex-col items-center gap-3 sm:flex-row"
+                role="group"
+                aria-labelledby="manifest-form"
+              >
+                <fieldset className="flex w-full flex-grow items-center">
+                  <legend className="sr-only" id="manifest-form">
+                    Manifest URL for app installation
+                  </legend>
+                  <Input
+                    type="text"
+                    defaultValue={manifestUrl}
+                    readOnly
+                    className="h-10 w-full flex-grow rounded-r-none border-r-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    aria-label="Manifest URL for Crowdin App installation"
+                    aria-describedby="manifest-help"
+                  />
+                  <span id="manifest-help" className="sr-only">
+                    Copy this URL to install the app in your Crowdin account
+                  </span>
+                  <CopyButton manifestUrl={manifestUrl} />
+                </fieldset>
+                <Button size="lg" className="w-full text-base sm:w-auto">
+                  App Descriptor
+                </Button>
+              </div>
+            </section>
+          </ClientAnimation>
+        </main>
+      </div>
+    </>
   );
 }
