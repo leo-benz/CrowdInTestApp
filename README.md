@@ -1,117 +1,116 @@
-# Getting Started with Crowdin Apps
+# Crowdin Apps Quick Start: Next.js
 
-Join the growing localization management platform! Build apps for all the teams already using Crowdin or Crowdin Enterprise to customize and extend localization experience. By creating Crowdin apps, developers can integrate existing services with Crowdin, add new features, upload and manage content.
+Welcome! This repository contains the source code for the sample application built in the **Crowdin [Quick Start](https://developer.crowdin.com/crowdin-apps-quick-start)** tutorial.
+
+This project is an advanced sample application that demonstrates core concepts for building a production-ready Crowdin App.
 
 [**`Home`**](https://crowdin.com) | [**`Quick Start`**](https://developer.crowdin.com/crowdin-apps-quick-start) | [**`Developer Portal`**](https://developer.crowdin.com/)
 
-## About This Project
+## About This Repository
 
-This is a comprehensive Crowdin Application built with Next.js and TypeScript, featuring:
+This repository contains a sample application built with **Next.js** and **TypeScript**. It's designed to demonstrate key features and best practices for building a production-ready Crowdin App, featuring:
 
-- **Project Menu Module** - Custom tab in Crowdin projects
-- **OAuth Authentication** - Secure user authentication via Crowdin
-- **Custom File Format Support** - Process JSON files with custom patterns
-- **Database Integration** - Store organization credentials with Prisma
-- **Blob Storage** - Handle large files via Vercel Blob
-- **JWT Middleware** - Secure API endpoints
-- **Complete Tutorial** - Step-by-step documentation
+- **Dynamic App Manifest**: Generating `manifest.json` based on environment variables.
+- **Project Menu Module**: Rendering a custom tab within a Crowdin project.
+- **Event Handling**: Securely processing `installed` and `uninstall` lifecycle events.
+- **JWT Middleware**: Verifying signed requests from Crowdin to protect API endpoints.
+- **Database Integration**: Using Prisma to persist organization credentials.
+- **Custom File Format**: Processing unique file types and generating live previews.
+- **Blob Storage**: Handling large data payloads efficiently with Vercel Blob.
 
 ## Running Locally
 
-Make sure you have [Node.js 18+](http://nodejs.org/) installed.
+Make sure you have [Node.js (v18 or later)](https://nodejs.org/) installed.
+
+1. **Clone the repository:**
 
 ```sh
-$ git clone https://github.com/crowdin/apps-quick-start-vercel.git # or clone your own fork
-$ cd apps-quick-start-vercel
-$ npm install
+git clone https://github.com/crowdin/apps-quick-start-nextjs.git
+cd apps-quick-start-nextjs
+```
+*To follow the tutorial from its starting point, check out the `v1.0-basic` tag:*
+```sh
+git checkout v1.0-basic
 ```
 
-Create your environment file:
+2. **Install dependencies:**
+
+Choose your preferred package manager:
+```sh
+# Using npm
+npm install
+
+# Or using pnpm
+pnpm install
+```
+
+3. **Configure your environment:**
+
+Copy the example environment file. This file is ignored by Git, so it's safe for your credentials.
+```sh
+cp .env.example .env.local
+```
+Next, open `.env.local` in your editor and add the required values from your Crowdin OAuth application.
+
+4. **Run the development server:**
 
 ```sh
-$ cp .env.example .env.local
+# Using npm
+npm run dev
+
+# Or using pnpm
+pnpm dev
 ```
 
-Update `.env.local` with your Crowdin OAuth app credentials:
-
-```env
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-CROWDIN_CLIENT_ID=<your-client-id>
-CROWDIN_CLIENT_SECRET=<your-client-secret>
-AUTH_URL=https://accounts.crowdin.com/oauth/token
-NEXT_PUBLIC_CROWDIN_IFRAME_SRC=https://cdn.crowdin.com/apps/dist/iframe.js
-```
-
-Start the development server:
-
-```sh
-$ npm run dev
-```
-
-Your app should now be running on [localhost:3000](http://localhost:3000/).
+Your application will be available at `http://localhost:3000`.
 
 ## Deploying to Vercel
 
-Make sure you have [Vercel CLI](https://vercel.com/cli) installed.
+The easiest way to deploy your app is directly to the Vercel platform.
 
-```sh
-$ vercel
-$ vercel --prod
-```
+Click the button below to clone this repository to your own GitHub account and deploy it to Vercel in one step:
 
-Or deploy directly from GitHub by connecting your repository to Vercel:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcrowdin%2Fapps-quick-start-nextjs)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcrowdin%2Fapps-quick-start-vercel)
+### Configuring Environment Variables
 
-### Environment Variables for Production
+After the deployment process begins, Vercel will guide you to configure your project. You will need to add your environment variables.
 
-Add the following environment variables in your Vercel dashboard:
+1. In the Vercel "Configure Project" view, expand the "Environment Variables" section.
+2. Copy the variables from your local `.env.local` file (or the `.env.example` template) and paste them into the Vercel dashboard.
+3. Ensure you update `NEXT_PUBLIC_BASE_URL` with your new production URL from Vercel (e.g., `https://your-app-name.vercel.app`).
 
-- `CROWDIN_CLIENT_ID` - Your Crowdin OAuth app Client ID
-- `CROWDIN_CLIENT_SECRET` - Your Crowdin OAuth app Client Secret
-- `NEXT_PUBLIC_BASE_URL` - Your production domain (e.g., `https://your-app.vercel.app`)
-- `AUTH_URL` - `https://accounts.crowdin.com/oauth/token`
-- `NEXT_PUBLIC_CROWDIN_IFRAME_SRC` - `https://cdn.crowdin.com/apps/dist/iframe.js`
-- `DATABASE_URL` - Your PostgreSQL database connection string
-- `BLOB_READ_WRITE_TOKEN` - Your Vercel Blob Storage token
+This step is crucial for your deployed app to connect to Crowdin, your database, and other services.
 
 ## Installing the App in Crowdin
 
 Once deployed, install your app in Crowdin using the [manual installation](https://developer.crowdin.com/crowdin-apps-installation/) method:
 
-1. Go to your Crowdin account settings
-2. Navigate to **Applications**
-3. Click **Install from URL**
-4. Enter your manifest URL: `https://your-app.vercel.app/manifest.json`
+1. In Crowdin, go to your **Account Settings > Apps**.
+2. Click **Install Private App**.
+3. Enter your manifest URL: `https://your-app-name.vercel.app/manifest.json`
 
-## Tutorial
-
-For a complete step-by-step tutorial, see [`docs/crowdin-app-quick-start-vercel-nextjs.md`](docs/crowdin-app-quick-start-vercel-nextjs.md). The tutorial covers:
-
-1. **Basic Setup** - Project structure and environment configuration
-2. **Authentication** - OAuth flow and database integration
-3. **Custom File Format** - Processing and preview generation
-4. **Advanced Features** - Blob storage and error handling
+After installation, your app will be available in the project locations defined in your manifest.
 
 ## Tech Stack
 
-- **Framework**: [Next.js 14+](https://nextjs.org/) with App Router
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Database**: [Prisma](https://www.prisma.io/) with PostgreSQL
-- **Storage**: [Vercel Blob](https://vercel.com/storage/blob)
-- **Deployment**: [Vercel](https://vercel.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Database**: PostgreSQL
+- **Deployment**: [Vercel](https://vercel.com/)
+- **Storage**: [Vercel Blob](https://vercel.com/storage/blob)
 
-## Documentation
+## Resources
 
-For more information about developing Crowdin Apps, see these resources:
+For more information on the technologies and APIs used in this project, see the following resources:
 
 - [Crowdin Developer Portal](https://developer.crowdin.com/)
-- [Quick Start Guide](https://developer.crowdin.com/crowdin-apps-quick-start)
-- [Crowdin Apps API Reference](https://developer.crowdin.com/api/v2/)
+- [Crowdin API Reference](https://developer.crowdin.com/api/v2/)
+- [Crowdin Apps SDK](https://crowdin.github.io/app-project-module/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Vercel Documentation](https://vercel.com/docs)
-- [Deploying Next.js Apps on Vercel](https://vercel.com/docs/frameworks/nextjs)
 
 ## License
 
