@@ -19,8 +19,12 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: [
           {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors https://benz.crowdin.com', // allow embedding in iframe
+          },
+          {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'ALLOW-FROM https://benz.crowdin.com', // optional, some browsers ignore
           },
           {
             key: 'X-Content-Type-Options',
