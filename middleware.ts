@@ -50,8 +50,6 @@ export async function middleware(request: NextRequest) {
 
     const decodedJwt = payload;
 
-    console.log('decodedJwt', decodedJwt);
-
     if (!decodedJwt.context?.user_id || !decodedJwt.context?.organization_id) {
       console.error('Middleware: JWT is missing necessary fields (user_id or organization_id).');
 
@@ -85,5 +83,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/user/:path*', '/api/file/process/:path*'],
+  matcher: ['/api/user/:path*', '/api/file/process/:path*', '/api/strings/:path*'],
 };

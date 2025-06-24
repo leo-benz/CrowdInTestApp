@@ -15,8 +15,8 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   const manifestData = {
-    identifier: 'getting-started',
-    name: 'Getting Started',
+    identifier: 'getting-started-local',
+    name: 'Getting Started Local',
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     logo: '/logo.svg',
     authentication: {
@@ -32,8 +32,24 @@ export async function GET() {
       'project-menu': [
         {
           key: 'menu',
-          name: 'Getting Started',
+          name: 'Getting Started Local',
           url: '/project-menu',
+        },
+      ],
+      'editor-translations-panel': [
+        {
+          key: 'length-checker',
+          name: 'Length Checker',
+          modes: ['translate', 'review'],
+          url: '/length-checker',
+        },
+      ],
+      'editor-right-panel': [
+        {
+          key: 'length-checker-right-panel',
+          name: 'Length Checker',
+          modes: ['translate', 'review'],
+          url: '/length-checker',
         },
       ],
       'custom-file-format': [
