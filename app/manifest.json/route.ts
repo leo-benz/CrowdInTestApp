@@ -63,6 +63,14 @@ export async function GET() {
           },
         },
       ],
+      'external-qa-check': [
+        {
+          key: 'text-length-qa-check',
+          name: 'Text Length QA Check',
+          runQaCheckUrl: '/api/qa/text-length-check',
+          getBatchSizeUrl: '/api/qa/batch-size',
+        },
+      ],
     },
   };
 

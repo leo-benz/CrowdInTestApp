@@ -51,8 +51,7 @@ export async function middleware(request: NextRequest) {
     const decodedJwt = payload;
 
     if (!decodedJwt.context?.user_id || !decodedJwt.context?.organization_id) {
-      console.error('Middleware: JWT is missing necessary fields (user_id or organization_id).');
-
+      console.error('JWT is missing necessary fields (user_id or organization_id).');
       return NextResponse.json({ error: { message: 'Invalid token payload.' } }, { status: 403 });
     }
 
@@ -83,5 +82,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/user/:path*', '/api/file/process/:path*', '/api/strings/:path*'],
+  matcher: [
+    '/api/user/:path*',
+    '/api/file/process/:path*',
+    '/api/strings/:path*',
+    '/api/qa/:path*',
+  ],
 };

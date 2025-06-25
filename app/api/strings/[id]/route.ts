@@ -11,7 +11,7 @@ interface DecodedJwtPayload {
   domain: string;
   context: {
     organization_id: number;
-    project_id: number;
+    project_id?: number; // Optional because QA check JWTs don't have this
   };
   iat?: number;
   exp?: number;
@@ -41,6 +41,7 @@ function getOrganizationDomain(baseUrl: string): string | undefined {
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const decodedJwtString = request.headers.get('x-decoded-jwt');
   const { id: stringId } = await params;
+  const projectIdParam = request.nextUrl.searchParams.get('projectId');
 
   if (!decodedJwtString) {
     console.error('Decoded JWT not found in headers. Middleware might not have run or failed.');
@@ -67,7 +68,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       { status: 500 }
     );
   }
-
   const organizationFromDb = await prisma.organization.findFirst({
     where: {
       domain: decodedJwt.domain,
@@ -88,9 +88,20 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       ...(organizationDomain && { organization: organizationDomain }),
     });
 
+    // Determine project ID - use from JWT context or query parameter
+    const projectId =
+      decodedJwt.context.project_id || (projectIdParam ? Number(projectIdParam) : undefined);
+
+    if (!projectId) {
+      return NextResponse.json(
+        { error: { message: 'Project ID required but not found.' } },
+        { status: 400 }
+      );
+    }
+
     // Fetch string data including custom fields
     const stringResponse = await crowdinClient.sourceStringsApi.getString(
-      decodedJwt.context.project_id,
+      projectId,
       Number(stringId)
     );
 
@@ -106,9 +117,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       if (
         errorMessage.includes('Organization not found') ||
         errorMessage.includes('Failed to refresh Crowdin token') ||
-        errorMessage.includes('String not found')
+        errorMessage.includes('String not found') ||
+        errorMessage.includes('Not Found')
       ) {
-        statusCode = 400;
+        statusCode = 404;
       }
     }
 

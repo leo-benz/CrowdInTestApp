@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertTriangle, CheckCircle, Ruler, Info } from 'lucide-react';
 import type { TextareaEditedEvent } from '@/types/crowdin';
+import { measureTextWidthWithCanvas } from '@/lib/text-measurement';
 import '@/types/crowdin';
 
 interface StringData {
@@ -32,19 +33,10 @@ export default function LengthCheckerPage() {
   const [isListening, setIsListening] = useState(false);
   const [maxWidthPixel, setMaxWidthPixel] = useState<number | null>(null);
   const [stringData, setStringData] = useState<StringData | null>(null);
-  const [currentStringId, setCurrentStringId] = useState<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const measureTextWidth = useCallback((text: string): number => {
-    const canvas = canvasRef.current;
-    if (!canvas) return 0;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return 0;
-
-    ctx.font = '16px Arial';
-    const metrics = ctx.measureText(text);
-    return Math.round(metrics.width);
+    return measureTextWidthWithCanvas(text, canvasRef.current);
   }, []);
 
   const fetchStringData = useCallback(
@@ -87,14 +79,13 @@ export default function LengthCheckerPage() {
         setError(null);
 
         if (stringId) {
-          setCurrentStringId(stringId);
           fetchStringData(stringId);
         }
       } else {
         setTextWidth(null);
       }
     },
-    [measureTextWidth, fetchStringData, currentStringId]
+    [measureTextWidth, fetchStringData]
   );
 
   useEffect(() => {
