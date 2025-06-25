@@ -278,41 +278,89 @@ export default function LengthCheckerPage() {
                     </div>
                   )}
                   <div className="bg-background rounded-md border p-4">
-                    <h3 className="mb-2 font-semibold">Translation Text:</h3>
-                    <p className="font-mono text-sm break-words">{translation}</p>
+                    <h3 className="mb-4 font-semibold">Translation Text Preview:</h3>
+                    <div className="space-y-4">
+                      {maxWidthPixel && (
+                        <div className="mb-2 text-xs text-gray-500">
+                          Max width: {maxWidthPixel}px
+                        </div>
+                      )}
+                      <div className="relative h-5">
+                        {maxWidthPixel && (
+                          <div
+                            className="absolute top-0 left-0 h-5 bg-gray-200"
+                            style={{ width: `${maxWidthPixel}px` }}
+                          />
+                        )}
+                        <div
+                          className={`absolute top-0 left-0 h-5 ${
+                            maxWidthPixel && textWidth && textWidth > maxWidthPixel
+                              ? 'bg-red-100'
+                              : 'bg-green-100'
+                          }`}
+                          style={{
+                            width: `${textWidth}px`,
+                          }}
+                        />
+                        <span
+                          className="absolute top-0 left-0"
+                          style={{
+                            fontFamily: 'Arial, sans-serif',
+                            fontSize: '16px',
+                            lineHeight: '20px',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {translation}
+                        </span>
+                      </div>
+                      <div className="mt-2 text-xs text-gray-500">Actual width: {textWidth}px</div>
+                    </div>
                   </div>
                   <div className="bg-background rounded-md border p-4 text-center">
-                    <h3 className="mb-2 font-semibold">Text Width:</h3>
-                    <p
-                      className={`text-2xl font-bold ${
-                        maxWidthPixel && textWidth && textWidth > maxWidthPixel
-                          ? 'text-red-500'
-                          : 'text-primary'
-                      }`}
-                    >
-                      {textWidth} pixels
-                    </p>
-                    {maxWidthPixel && (
-                      <p className="mt-1 text-sm">
-                        <span className="text-muted-foreground">Maximum: </span>
-                        <span
-                          className={
-                            textWidth && textWidth > maxWidthPixel
-                              ? 'font-semibold text-red-500'
-                              : 'text-muted-foreground'
-                          }
+                    <h3 className="mb-2 font-semibold">Measurement Summary:</h3>
+                    <div className="mb-4 grid grid-cols-2 gap-4">
+                      <div className="text-center">
+                        <p className="text-muted-foreground mb-1 text-sm">Actual Width</p>
+                        <p
+                          className={`text-2xl font-bold ${
+                            maxWidthPixel && textWidth && textWidth > maxWidthPixel
+                              ? 'text-red-500'
+                              : 'text-green-600'
+                          }`}
                         >
-                          {maxWidthPixel} pixels
-                        </span>
-                      </p>
-                    )}
-                    <p className="text-muted-foreground mt-1 text-sm">
-                      (measured with 16px Arial font)
+                          {textWidth}px
+                        </p>
+                      </div>
+                      {maxWidthPixel && (
+                        <div className="text-center">
+                          <p className="text-muted-foreground mb-1 text-sm">Maximum Width</p>
+                          <p className="text-2xl font-bold text-gray-600">{maxWidthPixel}px</p>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-muted-foreground mb-2 text-sm">
+                      Font: 16px Arial (as used in measurement)
                     </p>
                     {maxWidthPixel && textWidth && textWidth > maxWidthPixel && (
-                      <div className="mt-2 rounded-md border border-red-200 bg-red-50 p-2">
-                        <p className="text-sm font-medium text-red-700">
-                          ⚠️ Width exceeds maximum by {textWidth - maxWidthPixel} pixels
+                      <div className="mt-3 rounded-md border border-red-200 bg-red-50 p-3">
+                        <p className="mb-1 text-sm font-medium text-red-700">
+                          ⚠️ Text exceeds maximum width
+                        </p>
+                        <p className="text-xs text-red-600">
+                          Overflow: {textWidth - maxWidthPixel} pixels (
+                          {(((textWidth - maxWidthPixel) / maxWidthPixel) * 100).toFixed(1)}%)
+                        </p>
+                      </div>
+                    )}
+                    {maxWidthPixel && textWidth && textWidth <= maxWidthPixel && (
+                      <div className="mt-3 rounded-md border border-green-200 bg-green-50 p-3">
+                        <p className="mb-1 text-sm font-medium text-green-700">
+                          ✅ Text fits within constraints
+                        </p>
+                        <p className="text-xs text-green-600">
+                          Remaining space: {maxWidthPixel - textWidth} pixels (
+                          {(((maxWidthPixel - textWidth) / maxWidthPixel) * 100).toFixed(1)}%)
                         </p>
                       </div>
                     )}
