@@ -33,11 +33,16 @@ export default function LengthCheckerPage() {
   const [isListening, setIsListening] = useState(false);
   const [maxWidthPixel, setMaxWidthPixel] = useState<number | null>(null);
   const [stringData, setStringData] = useState<StringData | null>(null);
+  const [font, setFont] = useState<string>('Arial');
+  const [fontSize, setFontSize] = useState<number>(16);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const measureTextWidth = useCallback((text: string): number => {
-    return measureTextWidthWithCanvas(text, canvasRef.current);
-  }, []);
+  const measureTextWidth = useCallback(
+    (text: string): number => {
+      return measureTextWidthWithCanvas(text, canvasRef.current, font, fontSize);
+    },
+    [font, fontSize]
+  );
 
   const fetchStringData = useCallback(
     async (stringId: number) => {
@@ -59,6 +64,8 @@ export default function LengthCheckerPage() {
 
         setStringData(data);
         setMaxWidthPixel(data.fields?.widthpx || data.MaxWidthPixel || null);
+        setFont(data.fields?.font || 'Arial');
+        setFontSize(data.fields?.['font-size'] || 16);
         setError(null);
       } catch (error) {
         console.error('Error fetching string data:', error);
@@ -274,6 +281,12 @@ export default function LengthCheckerPage() {
                             {stringData.MaxWidthPixel}px
                           </p>
                         )}
+                        <p>
+                          <span className="font-medium">Font:</span> {font}
+                        </p>
+                        <p>
+                          <span className="font-medium">Font Size:</span> {fontSize}px
+                        </p>
                       </div>
                     </div>
                   )}
@@ -285,29 +298,30 @@ export default function LengthCheckerPage() {
                           Max width: {maxWidthPixel}px
                         </div>
                       )}
-                      <div className="relative h-5">
+                      <div className="relative" style={{ height: `${fontSize + 4}px` }}>
                         {maxWidthPixel && (
                           <div
-                            className="absolute top-0 left-0 h-5 bg-gray-200"
-                            style={{ width: `${maxWidthPixel}px` }}
+                            className="absolute top-0 left-0 bg-gray-200"
+                            style={{ width: `${maxWidthPixel}px`, height: `${fontSize + 4}px` }}
                           />
                         )}
                         <div
-                          className={`absolute top-0 left-0 h-5 ${
+                          className={`absolute top-0 left-0 ${
                             maxWidthPixel && textWidth && textWidth > maxWidthPixel
                               ? 'bg-red-100'
                               : 'bg-green-100'
                           }`}
                           style={{
                             width: `${textWidth}px`,
+                            height: `${fontSize + 4}px`,
                           }}
                         />
                         <span
                           className="absolute top-0 left-0"
                           style={{
-                            fontFamily: 'Arial, sans-serif',
-                            fontSize: '16px',
-                            lineHeight: '20px',
+                            fontFamily: `${font}, sans-serif`,
+                            fontSize: `${fontSize}px`,
+                            lineHeight: `${fontSize + 4}px`,
                             whiteSpace: 'nowrap',
                           }}
                         >
@@ -340,7 +354,7 @@ export default function LengthCheckerPage() {
                       )}
                     </div>
                     <p className="text-muted-foreground mb-2 text-sm">
-                      Font: 16px Arial (as used in measurement)
+                      Font: {fontSize}px {font} (as used in measurement)
                     </p>
                     {maxWidthPixel && textWidth && textWidth > maxWidthPixel && (
                       <div className="mt-3 rounded-md border border-red-200 bg-red-50 p-3">

@@ -4,14 +4,18 @@ import { createCanvas } from 'canvas';
  * Measures the pixel width of text using Canvas API
  * Works in both browser and Node.js environments
  */
-export function measureTextWidth(text: string): number {
+export function measureTextWidth(
+  text: string,
+  font: string = 'Arial',
+  fontSize: number = 16
+): number {
   if (typeof window !== 'undefined' && window.document) {
     // Browser environment - use DOM Canvas
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return 0;
 
-    ctx.font = '16px Arial';
+    ctx.font = `${fontSize}px ${font}`;
     const metrics = ctx.measureText(text);
     return Math.round(metrics.width);
   } else {
@@ -19,13 +23,13 @@ export function measureTextWidth(text: string): number {
     try {
       const canvas = createCanvas(200, 100);
       const ctx = canvas.getContext('2d');
-      ctx.font = '16px Arial';
+      ctx.font = `${fontSize}px ${font}`;
       const metrics = ctx.measureText(text);
       return Math.round(metrics.width);
     } catch {
       // Fallback if canvas is not available
       console.warn('Canvas not available for text measurement, using fallback calculation');
-      const averageCharWidth = 9; // Approximate width in pixels for Arial 16px
+      const averageCharWidth = fontSize * 0.5625; // Approximate width ratio for most fonts
       return Math.round(text.length * averageCharWidth);
     }
   }
@@ -46,13 +50,18 @@ export function createTextMeasurementCanvas(): HTMLCanvasElement | null {
  * Measures text width using a provided canvas element (browser only)
  * This is for compatibility with existing code that uses canvas refs
  */
-export function measureTextWidthWithCanvas(text: string, canvas: HTMLCanvasElement | null): number {
+export function measureTextWidthWithCanvas(
+  text: string,
+  canvas: HTMLCanvasElement | null,
+  font: string = 'Arial',
+  fontSize: number = 16
+): number {
   if (!canvas) return 0;
 
   const ctx = canvas.getContext('2d');
   if (!ctx) return 0;
 
-  ctx.font = '16px Arial';
+  ctx.font = `${fontSize}px ${font}`;
   const metrics = ctx.measureText(text);
   return Math.round(metrics.width);
 }
