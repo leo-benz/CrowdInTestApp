@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     const qaRequest: QARequest = await request.json();
-    console.log(
+    console.warn(
       `[QA] Processing ${qaRequest.data.translations.length} translations for project ${qaRequest.data.project.name} (${qaRequest.data.targetLanguage.id})`
     );
 
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
     const failedCount = validations.filter(v => !v.passed).length;
 
     if (failedCount > 0) {
-      console.log(`[QA] Completed: ${passedCount} passed, ${failedCount} failed`);
+      console.warn(`[QA] Completed: ${passedCount} passed, ${failedCount} failed`);
     }
 
     return NextResponse.json(response);

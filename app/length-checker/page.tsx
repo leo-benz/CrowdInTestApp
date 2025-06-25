@@ -32,7 +32,7 @@ export default function LengthCheckerPage() {
   const [error, setError] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [maxWidthPixel, setMaxWidthPixel] = useState<number | null>(null);
-  const [stringData, setStringData] = useState<StringData | null>(null);
+  const [, setStringData] = useState<StringData | null>(null);
   const [font, setFont] = useState<string>('Arial');
   const [fontSize, setFontSize] = useState<number>(16);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -257,47 +257,9 @@ export default function LengthCheckerPage() {
             <CardContent className="bg-muted flex min-h-[200px] flex-col items-center justify-center rounded-b-lg p-4">
               {translation && textWidth !== null && (
                 <div className="w-full space-y-4">
-                  {stringData && (
-                    <div className="bg-background rounded-md border p-4">
-                      <h3 className="mb-2 font-semibold">Source String Information:</h3>
-                      <div className="space-y-1 text-sm">
-                        <p>
-                          <span className="font-medium">ID:</span> {stringData.id}
-                        </p>
-                        <p>
-                          <span className="font-medium">Text:</span> {stringData.text}
-                        </p>
-                        <p>
-                          <span className="font-medium">Context:</span>{' '}
-                          {stringData.context || 'None'}
-                        </p>
-                        <p>
-                          <span className="font-medium">File:</span>{' '}
-                          {stringData.file?.name || 'Unknown'}
-                        </p>
-                        {stringData.MaxWidthPixel && (
-                          <p>
-                            <span className="font-medium">Max Width Pixel:</span>{' '}
-                            {stringData.MaxWidthPixel}px
-                          </p>
-                        )}
-                        <p>
-                          <span className="font-medium">Font:</span> {font}
-                        </p>
-                        <p>
-                          <span className="font-medium">Font Size:</span> {fontSize}px
-                        </p>
-                      </div>
-                    </div>
-                  )}
                   <div className="bg-background rounded-md border p-4">
                     <h3 className="mb-4 font-semibold">Translation Text Preview:</h3>
                     <div className="space-y-4">
-                      {maxWidthPixel && (
-                        <div className="mb-2 text-xs text-gray-500">
-                          Max width: {maxWidthPixel}px
-                        </div>
-                      )}
                       <div className="space-y-2">
                         {maxWidthPixel && (
                           <div className="flex items-center justify-between text-xs text-gray-500">
