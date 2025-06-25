@@ -298,35 +298,73 @@ export default function LengthCheckerPage() {
                           Max width: {maxWidthPixel}px
                         </div>
                       )}
-                      <div className="relative" style={{ height: `${fontSize + 4}px` }}>
+                      <div className="space-y-2">
                         {maxWidthPixel && (
-                          <div
-                            className="absolute top-0 left-0 bg-gray-200"
-                            style={{ width: `${maxWidthPixel}px`, height: `${fontSize + 4}px` }}
-                          />
+                          <div className="flex items-center justify-between text-xs text-gray-500">
+                            <span>0px</span>
+                            <span className="font-medium">Max: {maxWidthPixel}px</span>
+                          </div>
                         )}
-                        <div
-                          className={`absolute top-0 left-0 ${
-                            maxWidthPixel && textWidth && textWidth > maxWidthPixel
-                              ? 'bg-red-100'
-                              : 'bg-green-100'
-                          }`}
-                          style={{
-                            width: `${textWidth}px`,
-                            height: `${fontSize + 4}px`,
-                          }}
-                        />
-                        <span
-                          className="absolute top-0 left-0"
-                          style={{
-                            fontFamily: `${font}, sans-serif`,
-                            fontSize: `${fontSize}px`,
-                            lineHeight: `${fontSize + 4}px`,
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {translation}
-                        </span>
+                        <div className="relative" style={{ height: `${fontSize + 4}px` }}>
+                          {maxWidthPixel && textWidth && textWidth > maxWidthPixel && (
+                            <div
+                              className="absolute top-0 left-0 bg-gray-200"
+                              style={{ width: `${maxWidthPixel}px`, height: `${fontSize + 4}px` }}
+                            />
+                          )}
+                          {maxWidthPixel && textWidth && (
+                            <>
+                              {/* Within limit portion */}
+                              <div
+                                className="absolute top-0 left-0 bg-green-100"
+                                style={{
+                                  width: `${Math.min(textWidth, maxWidthPixel)}px`,
+                                  height: `${fontSize + 4}px`,
+                                }}
+                              />
+                              {/* Over limit portion */}
+                              {textWidth > maxWidthPixel && (
+                                <div
+                                  className="absolute top-0 bg-red-100"
+                                  style={{
+                                    left: `${maxWidthPixel}px`,
+                                    width: `${textWidth - maxWidthPixel}px`,
+                                    height: `${fontSize + 4}px`,
+                                  }}
+                                />
+                              )}
+                            </>
+                          )}
+                          {!maxWidthPixel && textWidth && (
+                            <div
+                              className="absolute top-0 left-0 bg-blue-100"
+                              style={{
+                                width: `${textWidth}px`,
+                                height: `${fontSize + 4}px`,
+                              }}
+                            />
+                          )}
+                          <span
+                            className="absolute top-0 left-0 z-10"
+                            style={{
+                              fontFamily: `${font}, sans-serif`,
+                              fontSize: `${fontSize}px`,
+                              lineHeight: `${fontSize + 4}px`,
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {translation}
+                          </span>
+                          {maxWidthPixel && textWidth && textWidth > maxWidthPixel && (
+                            <div
+                              className="absolute top-0 w-0.5 bg-red-500 opacity-80"
+                              style={{
+                                left: `${maxWidthPixel}px`,
+                                height: `${fontSize + 4}px`,
+                              }}
+                            />
+                          )}
+                        </div>
                       </div>
                       <div className="mt-2 text-xs text-gray-500">Actual width: {textWidth}px</div>
                     </div>
