@@ -7,21 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertTriangle, CheckCircle, Ruler, Info } from 'lucide-react';
-
-interface CrowdinContext {
-  project?: { id: number; name: string };
-  user?: { id: number };
-  [key: string]: unknown;
-}
-
-interface TextareaEditedEvent {
-  stringId: number;
-  sourceText: string;
-  context: string;
-  oldTranslation: string;
-  newTranslation: string;
-  [key: string]: unknown;
-}
+import type { TextareaEditedEvent } from '@/types/crowdin';
+import '@/types/crowdin';
 
 interface StringData {
   id: number;
@@ -34,19 +21,6 @@ interface StringData {
   };
   MaxWidthPixel?: number;
   [key: string]: unknown;
-}
-
-declare global {
-  interface Window {
-    AP?: {
-      getContext: (callback: (context: CrowdinContext) => void) => void;
-      getJwtToken: (callback: (token: string) => void) => void;
-      events?: {
-        on: (eventName: string, callback: (data: TextareaEditedEvent) => void) => void;
-        off: (eventName: string, callback: (data: TextareaEditedEvent) => void) => void;
-      };
-    };
-  }
 }
 
 export default function LengthCheckerPage() {

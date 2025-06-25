@@ -38,9 +38,9 @@ function getOrganizationDomain(baseUrl: string): string | undefined {
  * via Crowdin API. Requires a valid JWT (decoded by middleware) in the
  * `x-decoded-jwt` header.
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const decodedJwtString = request.headers.get('x-decoded-jwt');
-  const stringId = params.id;
+  const { id: stringId } = await params;
 
   if (!decodedJwtString) {
     console.error('Decoded JWT not found in headers. Middleware might not have run or failed.');

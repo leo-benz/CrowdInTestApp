@@ -7,25 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertTriangle, CheckCircle, KeyRound, UserRound, Info, Terminal } from 'lucide-react';
-
-/**
- * Minimal subset of data returned by `window.AP.getContext()` when the app is
- * embedded inside Crowdin. We only declare the properties we actually use.
- */
-interface CrowdinContext {
-  project?: { id: number; name: string };
-  user?: { id: number };
-  [key: string]: unknown;
-}
-
-declare global {
-  interface Window {
-    AP?: {
-      getContext: (callback: (context: CrowdinContext) => void) => void;
-      getJwtToken: (callback: (token: string) => void) => void;
-    };
-  }
-}
+import '@/types/crowdin';
 
 /**
  * React component rendered inside Crowdin's *Project Menu* iframe. Provides
